@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/roblox/thumbnails/:path*",
+      "destination": "https://thumbnails.roblox.com/:path*"
+    }
+  ]
+}

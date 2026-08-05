@@ -76,11 +76,13 @@ export default function Developers() {
   const [loading, setLoading] = useState(true);
 
   const fetchAvatars = useCallback(async () => {
-    try {
-      const ids = DEVS_DATA.map((dev) => dev.id);
-      const response = await fetch(ROBLOX_HEADSHOT_PROXY(ids));
-      if (!response.ok) throw new Error('Roblox API responded with ' + response.status);
+    const ids = DEVS_DATA.map((dev) => dev.id);
+    const primaryUrl = ROBLOX_HEADSHOT_PROXY(ids);
+    const corsProxyUrl = `https://corsproxy.io/?https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${ids.join(',')}&size=420x420&format=Png&isCircular=false`;
 
+    const tryFetch = async (url) => {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Status ' + response.status);
       const data = await response.json();
       const urls = {};
       data.data?.forEach((item) => {
@@ -88,20 +90,37 @@ export default function Developers() {
           urls[item.targetId] = item.imageUrl;
         }
       });
+      return urls;
+    };
 
+    try {
+      // First try Vite / Vercel rewrite proxy
+      const urls = await tryFetch(primaryUrl);
       if (Object.keys(urls).length > 0) {
         setAvatarUrls(urls);
+        return;
       }
-    } catch (error) {
-      console.warn('Roblox avatar proxy fetch failed, using fallback img src:', error);
-      setAvatarUrls({});
-    } finally {
-      setLoading(false);
+    } catch (err) {
+      console.warn('Primary Roblox avatar proxy failed, trying CORS proxy fallback...', err);
     }
+
+    try {
+      // Fallback: try public CORS proxy
+      const urls = await tryFetch(corsProxyUrl);
+      if (Object.keys(urls).length > 0) {
+        setAvatarUrls(urls);
+        return;
+      }
+    } catch (err) {
+      console.warn('CORS proxy fallback also failed:', err);
+    }
+
+    // Final fallback: clear urls so <img> falls back to robloxFallbackSrc directly
+    setAvatarUrls({});
   }, []);
 
   useEffect(() => {
-    fetchAvatars();
+    fetchAvatars().finally(() => setLoading(false));
     const intervalId = setInterval(() => fetchAvatars(), REFRESH_INTERVAL_MS);
     return () => clearInterval(intervalId);
   }, [fetchAvatars]);
@@ -145,7 +164,7 @@ export default function Developers() {
         </div>
       </div>
 
-        {/* Horizontal Slider Carousel */}
+      {/* Horizontal Slider Carousel */}
       <div
         ref={sliderRef}
         className="flex gap-4 sm:gap-5 overflow-x-auto scroll-smooth py-3 px-1 no-scrollbar select-none"
@@ -170,13 +189,14 @@ export default function Developers() {
                   alt={dev.name}
                   className="w-full h-full object-cover object-center"
                   loading="lazy"
+                  referrerPolicy="no-referrer"
                   onError={(e) => {
-                    // Try fallback direct Roblox src first, then letter-avatar
-                    if (!e.currentTarget.dataset.fallback1) {
-                      e.currentTarget.dataset.fallback1 = '1';
-                      e.currentTarget.src = robloxFallbackSrc(dev.id);
+                    const target = e.currentTarget;
+                    if (!target.dataset.triedFallback) {
+                      target.dataset.triedFallback = 'true';
+                      target.src = robloxFallbackSrc(dev.id);
                     } else {
-                      e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(dev.name)}&size=420&background=ff6b00&color=fff&bold=true`;
+                      target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(dev.name)}&size=420&background=ff6b00&color=fff&bold=true`;
                     }
                   }}
                 />
