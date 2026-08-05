@@ -1,5 +1,43 @@
-/* Avenir via system/Google Fonts fallback */
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,700&display=swap');
+/* Local Avenir Font Definitions */
+@font-face {
+  font-family: 'Avenir';
+  src: url('/fonts/Avenir Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('/fonts/Avenir Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('/fonts/Avenir Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('/fonts/Avenir Heavy.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('/fonts/Avenir Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -7,19 +45,19 @@
 
 @layer base {
   *, ::before, ::after {
-    font-family: 'Avenir Next', 'Avenir', 'Nunito', 'Segoe UI', sans-serif !important;
+    font-family: 'Avenir', 'Avenir Next', sans-serif !important;
   }
   html, body {
     overflow: hidden;
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: 'Avenir Next', 'Avenir', 'Nunito', 'Segoe UI', sans-serif !important;
+    font-family: 'Avenir', 'Avenir Next', sans-serif !important;
   }
   body {
     background-color: #ffffff;
     color: #0f172a;
-    font-family: 'Avenir Next', 'Avenir', 'Nunito', 'Segoe UI', sans-serif !important;
+    font-family: 'Avenir', 'Avenir Next', sans-serif !important;
   }
   #root {
     height: 100vh;
@@ -50,7 +88,7 @@
 .font-impact,
 .font-avenir,
 .font-sans {
-  font-family: 'Avenir Next', 'Avenir', 'Nunito', 'Segoe UI', sans-serif !important;
+  font-family: 'Avenir', 'Avenir Next', sans-serif !important;
 }
 
 /* Light Background Gradient */

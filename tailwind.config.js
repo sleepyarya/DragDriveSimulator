@@ -19,9 +19,9 @@ export default {
         }
       },
       fontFamily: {
-        avenir: ['Avenir Next', 'Avenir', 'Nunito', 'Segoe UI', 'sans-serif'],
-        sans: ['Avenir Next', 'Avenir', 'Nunito', 'Segoe UI', 'sans-serif'],
-        impact: ['Avenir Next', 'Avenir', 'Nunito', 'Segoe UI', 'sans-serif'],
+        avenir: ['Avenir', 'Avenir Next', 'sans-serif'],
+        sans: ['Avenir', 'Avenir Next', 'sans-serif'],
+        impact: ['Avenir', 'Avenir Next', 'sans-serif'],
       },
       boxShadow: {
         'orange-glow': '0 10px 30px -5px rgba(255, 107, 0, 0.3)',
