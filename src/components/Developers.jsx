@@ -85,11 +85,12 @@ export default function Developers() {
     const userIds = DEVS_DATA.map((d) => d.id);
     const idsString = userIds.join(',');
 
-    // 1. Fetch Headshot Avatars (Direct Roblox Thumbnails API — CORS Supported)
+    // 1. Fetch Headshot Avatars (Direct Roblox Thumbnails API with Timestamp Cache-Buster)
     async function fetchAvatars() {
       try {
+        const timestamp = Date.now();
         const res = await fetch(
-          `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${idsString}&size=420x420&format=Png&isCircular=false`
+          `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${idsString}&size=420x420&format=Png&isCircular=false&_t=${timestamp}`
         );
         if (!res.ok) return;
         const json = await res.json();
@@ -101,11 +102,11 @@ export default function Developers() {
             }
           });
 
-          // Immediately apply updated avatar URLs to state
+          // Apply live updated avatar URLs to state
           setDevs((prev) =>
             prev.map((dev) => ({
               ...dev,
-              avatarUrl: avatarMap[dev.id] || dev.avatarUrl,
+              avatarUrl: avatarMap[dev.id] ? avatarMap[dev.id] : dev.avatarUrl,
             }))
           );
         }
@@ -114,19 +115,10 @@ export default function Developers() {
       }
     }
 
-    // 2. Fetch User Display Names (Non-blocking)
-    async function fetchNames() {
-      try {
-        const res = await fetch(
-          `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${idsString}&size=150x150&format=Png`
-        );
-      } catch (err) {
-        // Silently handle if usernames endpoint requires proxy
-      }
-    }
-
     fetchAvatars();
-    fetchNames();
+    // Refresh avatar headshots every 60 seconds
+    const interval = setInterval(fetchAvatars, 60000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleScroll = (direction) => {
@@ -185,10 +177,11 @@ export default function Developers() {
             {/* Compact Avatar Image Box */}
             <div className="w-full aspect-square rounded-xl overflow-hidden bg-slate-100 border border-slate-200/60 mb-2.5 relative group-hover:scale-[1.02] transition-transform duration-300">
               <img
+                key={`${dev.id}-${dev.avatarUrl}`}
                 src={dev.avatarUrl}
                 alt={dev.name}
                 className="w-full h-full object-cover object-center"
-                loading="lazy"
+                loading="eager"
               />
               <div className="absolute top-1.5 right-1.5 p-1 rounded-full bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
                 <ExternalLink className="w-3 h-3" />
