@@ -24,7 +24,7 @@ const DEVS_DATA = [
     name: 'DevAnjayyy',
     username: 'DevAnjayyy',
     profileUrl: 'https://www.roblox.com/users/152552737/profile',
-    avatarUrl: 'https://tr.rbxcdn.com/30DAY-AvatarHeadshot-A74D8CC1FA3FA5C8BBDEF94DFEFBAD70-Png/420/420/AvatarHeadshot/Png/noFilter',
+    avatarUrl: 'https://tr.rbxcdn.com/30DAY-AvatarHeadshot-027F191DCF949902AD1E9273453DAB65-Png/420/420/AvatarHeadshot/Png/noFilter',
   },
   {
     id: 8920584256,
@@ -82,63 +82,51 @@ export default function Developers() {
 
   // Auto-Update Avatars & Names from Roblox Official API
   useEffect(() => {
-    async function fetchLiveRobloxData() {
-      try {
-        const userIds = DEVS_DATA.map((d) => d.id);
-        const idsString = userIds.join(',');
+    const userIds = DEVS_DATA.map((d) => d.id);
+    const idsString = userIds.join(',');
 
-        // Fetch Avatars (Headshots)
-        const avatarRes = await fetch(
+    // 1. Fetch Headshot Avatars (Direct Roblox Thumbnails API — CORS Supported)
+    async function fetchAvatars() {
+      try {
+        const res = await fetch(
           `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${idsString}&size=420x420&format=Png&isCircular=false`
         );
+        if (!res.ok) return;
+        const json = await res.json();
+        if (json?.data && Array.isArray(json.data)) {
+          const avatarMap = {};
+          json.data.forEach((item) => {
+            if (item.targetId && item.imageUrl) {
+              avatarMap[item.targetId] = item.imageUrl;
+            }
+          });
 
-        let avatarMap = {};
-        if (avatarRes.ok) {
-          const avatarData = await avatarRes.json();
-          if (avatarData?.data) {
-            avatarData.data.forEach((item) => {
-              if (item.targetId && item.imageUrl) {
-                avatarMap[item.targetId] = item.imageUrl;
-              }
-            });
-          }
+          // Immediately apply updated avatar URLs to state
+          setDevs((prev) =>
+            prev.map((dev) => ({
+              ...dev,
+              avatarUrl: avatarMap[dev.id] || dev.avatarUrl,
+            }))
+          );
         }
-
-        // Fetch Usernames
-        const userRes = await fetch('https://users.roblox.com/v1/users', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userIds, excludeBannedUsers: false }),
-        });
-
-        let nameMap = {};
-        if (userRes.ok) {
-          const userData = await userRes.json();
-          if (userData?.data) {
-            userData.data.forEach((u) => {
-              nameMap[u.id] = {
-                name: u.displayName || u.name,
-                username: `@${u.name}`,
-              };
-            });
-          }
-        }
-
-        // Update state with live data
-        setDevs((prevDevs) =>
-          prevDevs.map((d) => ({
-            ...d,
-            avatarUrl: avatarMap[d.id] || d.avatarUrl,
-            name: nameMap[d.id]?.name || d.name,
-            username: nameMap[d.id]?.username || `@${d.username}`,
-          }))
-        );
       } catch (err) {
-        console.log('Roblox API Live Fetch fallback active');
+        console.warn('Roblox Avatar API Fetch Error:', err);
       }
     }
 
-    fetchLiveRobloxData();
+    // 2. Fetch User Display Names (Non-blocking)
+    async function fetchNames() {
+      try {
+        const res = await fetch(
+          `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${idsString}&size=150x150&format=Png`
+        );
+      } catch (err) {
+        // Silently handle if usernames endpoint requires proxy
+      }
+    }
+
+    fetchAvatars();
+    fetchNames();
   }, []);
 
   const handleScroll = (direction) => {
