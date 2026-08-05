@@ -6,6 +6,15 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
-    open: true
-  }
+    open: true,
+    proxy: {
+      // Proxy Roblox Thumbnails API to avoid CORS
+      '/api/roblox/thumbnails': {
+        target: 'https://thumbnails.roblox.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/roblox\/thumbnails/, ''),
+        secure: true,
+      },
+    },
+  },
 })

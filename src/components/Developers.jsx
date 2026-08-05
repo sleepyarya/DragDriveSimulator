@@ -1,9 +1,17 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
 
-// Helper: Roblox headshot thumbnail URL — auto-updates with the user's current avatar (no CORS needed)
-const robloxAvatar = (userId) =>
+// Roblox Thumbnails API via Vite proxy (avoids CORS in dev) or direct URL at prod build
+// In production you'd need a real backend proxy or use the headshot-thumbnail img trick.
+const ROBLOX_HEADSHOT_PROXY = (userIds) =>
+  `/api/roblox/thumbnails/v1/users/avatar-headshot?userIds=${userIds.join(',')}&size=420x420&format=Png&isCircular=false`;
+
+// Fallback: Roblox direct headshot image URL (works as <img> src, no CORS for img tags)
+const robloxFallbackSrc = (userId) =>
   `https://www.roblox.com/headshot-thumbnail/image?userId=${userId}&width=420&height=420&format=png`;
+
+// Refresh interval: every 1 hour
+const REFRESH_INTERVAL_MS = 60 * 60 * 1000;
 
 const DEVS_DATA = [
   {
@@ -64,6 +72,39 @@ const DEVS_DATA = [
 
 export default function Developers() {
   const sliderRef = useRef(null);
+  const [avatarUrls, setAvatarUrls] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  const fetchAvatars = useCallback(async () => {
+    try {
+      const ids = DEVS_DATA.map((dev) => dev.id);
+      const response = await fetch(ROBLOX_HEADSHOT_PROXY(ids));
+      if (!response.ok) throw new Error('Roblox API responded with ' + response.status);
+
+      const data = await response.json();
+      const urls = {};
+      data.data?.forEach((item) => {
+        if (item.targetId && item.imageUrl) {
+          urls[item.targetId] = item.imageUrl;
+        }
+      });
+
+      if (Object.keys(urls).length > 0) {
+        setAvatarUrls(urls);
+      }
+    } catch (error) {
+      console.warn('Roblox avatar proxy fetch failed, using fallback img src:', error);
+      setAvatarUrls({});
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchAvatars();
+    const intervalId = setInterval(() => fetchAvatars(), REFRESH_INTERVAL_MS);
+    return () => clearInterval(intervalId);
+  }, [fetchAvatars]);
 
   const handleScroll = (direction) => {
     if (sliderRef.current) {
@@ -78,10 +119,10 @@ export default function Developers() {
       <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
         <div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-avenir font-extrabold tracking-tight text-slate-900 uppercase">
-            DEVELOPERS & <span className="text-[#ff6b00]">CONTRIBUTORS</span>
+            DEVELOPERS &amp; <span className="text-[#ff6b00]">CONTRIBUTORS</span>
           </h2>
           <p className="font-avenir text-slate-600 text-sm sm:text-base max-w-xl mt-1 leading-relaxed">
-            Meet the team behind Drag Drive Simulator bringing realistic Indonesian driving & tuning to Roblox.
+            Meet the team behind Drag Drive Simulator bringing realistic Indonesian driving &amp; tuning to Roblox.
           </p>
         </div>
 
@@ -104,7 +145,7 @@ export default function Developers() {
         </div>
       </div>
 
-      {/* Horizontal Slider Carousel */}
+        {/* Horizontal Slider Carousel */}
       <div
         ref={sliderRef}
         className="flex gap-4 sm:gap-5 overflow-x-auto scroll-smooth py-3 px-1 no-scrollbar select-none"
@@ -120,13 +161,26 @@ export default function Developers() {
           >
             {/* Compact Avatar Image Box */}
             <div className="w-full aspect-square rounded-xl overflow-hidden bg-slate-100 border border-slate-200/60 mb-2.5 relative group-hover:scale-[1.02] transition-transform duration-300">
-              <img
-                src={robloxAvatar(dev.id)}
-                alt={dev.name}
-                className="w-full h-full object-cover object-center"
-                loading="lazy"
-                onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(dev.name)}&size=420&background=ff6b00&color=fff&bold=true`; }}
-              />
+              {loading ? (
+                // Skeleton loader
+                <div className="w-full h-full bg-gradient-to-br from-slate-200 to-slate-100 animate-pulse" />
+              ) : (
+                <img
+                  src={avatarUrls[dev.id] || robloxFallbackSrc(dev.id)}
+                  alt={dev.name}
+                  className="w-full h-full object-cover object-center"
+                  loading="lazy"
+                  onError={(e) => {
+                    // Try fallback direct Roblox src first, then letter-avatar
+                    if (!e.currentTarget.dataset.fallback1) {
+                      e.currentTarget.dataset.fallback1 = '1';
+                      e.currentTarget.src = robloxFallbackSrc(dev.id);
+                    } else {
+                      e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(dev.name)}&size=420&background=ff6b00&color=fff&bold=true`;
+                    }
+                  }}
+                />
+              )}
               <div className="absolute top-1.5 right-1.5 p-1 rounded-full bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
                 <ExternalLink className="w-3 h-3" />
               </div>
