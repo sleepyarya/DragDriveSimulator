@@ -1,125 +1,69 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
+
+// Helper: Roblox headshot thumbnail URL — auto-updates with the user's current avatar (no CORS needed)
+const robloxAvatar = (userId) =>
+  `https://www.roblox.com/headshot-thumbnail/image?userId=${userId}&width=420&height=420&format=png`;
 
 const DEVS_DATA = [
   {
     id: 1658383033,
     role: 'Owner',
     name: 'ADV_Gamers',
-    username: 'advrn12345',
     profileUrl: 'https://www.roblox.com/users/1658383033/profile',
-    avatarUrl: 'https://tr.rbxcdn.com/30DAY-AvatarHeadshot-61B9C421C36102C87AE85969224F82E3-Png/420/420/AvatarHeadshot/Png/noFilter',
   },
   {
     id: 2617603293,
     role: 'Co-Owner / Developer',
     name: 'Pak_Bodonq',
-    username: 'Pak_Bodonq',
     profileUrl: 'https://www.roblox.com/users/2617603293/profile',
-    avatarUrl: 'https://tr.rbxcdn.com/30DAY-AvatarHeadshot-FE354CE0C6ED23A7225D0510CF689481-Png/420/420/AvatarHeadshot/Png/noFilter',
   },
   {
     id: 152552737,
     role: 'Head Staff',
     name: 'DevAnjayyy',
-    username: 'DevAnjayyy',
     profileUrl: 'https://www.roblox.com/users/152552737/profile',
-    avatarUrl: 'https://tr.rbxcdn.com/30DAY-AvatarHeadshot-027F191DCF949902AD1E9273453DAB65-Png/420/420/AvatarHeadshot/Png/noFilter',
   },
   {
     id: 8920584256,
     role: 'Developer',
     name: 'Achaa',
-    username: 'Yourcarramell',
     profileUrl: 'https://www.roblox.com/users/8920584256/profile',
-    avatarUrl: 'https://tr.rbxcdn.com/30DAY-AvatarHeadshot-000B5440E98E59A51DE189EFC96624D0-Png/420/420/AvatarHeadshot/Png/noFilter',
   },
   {
     id: 1876918103,
     role: 'Contributor',
     name: 'arca',
-    username: 'd_xuo',
     profileUrl: 'https://www.roblox.com/users/1876918103/profile',
-    avatarUrl: 'https://tr.rbxcdn.com/30DAY-AvatarHeadshot-4E00BD4844E708FC2432A407CA95AF55-Png/420/420/AvatarHeadshot/Png/noFilter',
   },
   {
     id: 2434595186,
     role: 'Contributor',
     name: 'VanTzy',
-    username: 'Ubemubemozaz',
     profileUrl: 'https://www.roblox.com/users/2434595186/profile',
-    avatarUrl: 'https://tr.rbxcdn.com/30DAY-AvatarHeadshot-562E89F53C1D3821745A697E379C1CB1-Png/420/420/AvatarHeadshot/Png/noFilter',
   },
   {
     id: 5350394157,
     role: 'Contributor',
     name: 'tintinmarthin',
-    username: 'rere_asik12',
     profileUrl: 'https://www.roblox.com/users/5350394157/profile',
-    avatarUrl: 'https://tr.rbxcdn.com/30DAY-AvatarHeadshot-6418504FB57637FCDE26C57722E2D0BB-Png/420/420/AvatarHeadshot/Png/noFilter',
   },
   {
     id: 3200992096,
     role: 'Contributor',
     name: 'rafael_ynz',
-    username: 'rafael_ynz',
     profileUrl: 'https://www.roblox.com/users/3200992096/profile',
-    avatarUrl: 'https://tr.rbxcdn.com/30DAY-AvatarHeadshot-C06D6BA65F3A07917E87442B4D129DEC-Png/420/420/AvatarHeadshot/Png/noFilter',
   },
   {
     id: 4745377249,
     role: 'Support',
     name: 'ng_nuup',
-    username: 'kin_evadealt123',
     profileUrl: 'https://www.roblox.com/users/4745377249/profile',
-    avatarUrl: 'https://tr.rbxcdn.com/30DAY-AvatarHeadshot-0C2D456B1DB16D12DBDE65BEE2921FDE-Png/420/420/AvatarHeadshot/Png/noFilter',
   },
 ];
 
 export default function Developers() {
-  const [devs, setDevs] = useState(DEVS_DATA);
   const sliderRef = useRef(null);
-
-  // Auto-Update Avatars & Names from Roblox Official API
-  useEffect(() => {
-    const userIds = DEVS_DATA.map((d) => d.id);
-    const idsString = userIds.join(',');
-
-    // 1. Fetch Headshot Avatars (Direct Roblox Thumbnails API with Timestamp Cache-Buster)
-    async function fetchAvatars() {
-      try {
-        const timestamp = Date.now();
-        const res = await fetch(
-          `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${idsString}&size=420x420&format=Png&isCircular=false&_t=${timestamp}`
-        );
-        if (!res.ok) return;
-        const json = await res.json();
-        if (json?.data && Array.isArray(json.data)) {
-          const avatarMap = {};
-          json.data.forEach((item) => {
-            if (item.targetId && item.imageUrl) {
-              avatarMap[item.targetId] = item.imageUrl;
-            }
-          });
-
-          // Apply live updated avatar URLs to state
-          setDevs((prev) =>
-            prev.map((dev) => ({
-              ...dev,
-              avatarUrl: avatarMap[dev.id] ? avatarMap[dev.id] : dev.avatarUrl,
-            }))
-          );
-        }
-      } catch (err) {
-        console.warn('Roblox Avatar API Fetch Error:', err);
-      }
-    }
-
-    fetchAvatars();
-    // Refresh avatar headshots every 60 seconds
-    const interval = setInterval(fetchAvatars, 60000);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleScroll = (direction) => {
     if (sliderRef.current) {
@@ -166,7 +110,7 @@ export default function Developers() {
         className="flex gap-4 sm:gap-5 overflow-x-auto scroll-smooth py-3 px-1 no-scrollbar select-none"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {devs.map((dev) => (
+        {DEVS_DATA.map((dev) => (
           <a
             key={dev.id}
             href={dev.profileUrl}
@@ -177,11 +121,11 @@ export default function Developers() {
             {/* Compact Avatar Image Box */}
             <div className="w-full aspect-square rounded-xl overflow-hidden bg-slate-100 border border-slate-200/60 mb-2.5 relative group-hover:scale-[1.02] transition-transform duration-300">
               <img
-                key={`${dev.id}-${dev.avatarUrl}`}
-                src={dev.avatarUrl}
+                src={robloxAvatar(dev.id)}
                 alt={dev.name}
                 className="w-full h-full object-cover object-center"
-                loading="eager"
+                loading="lazy"
+                onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(dev.name)}&size=420&background=ff6b00&color=fff&bold=true`; }}
               />
               <div className="absolute top-1.5 right-1.5 p-1 rounded-full bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
                 <ExternalLink className="w-3 h-3" />
