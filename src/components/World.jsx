@@ -99,7 +99,7 @@ export default function World() {
     <section className="w-full pt-28 pb-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col justify-center min-h-screen">
       {/* Header Section */}
       <div className="text-center mb-6">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-impact tracking-tight text-slate-900 uppercase">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-avenir font-extrabold tracking-tight text-slate-900 uppercase">
           DISCOVER THE WORLD OF <span className="text-[#ff6b00]">Drag Drive Simulator</span>
         </h2>
         <p className="font-avenir text-slate-600 text-sm sm:text-base max-w-2xl mx-auto mt-1 leading-relaxed">
@@ -132,7 +132,7 @@ export default function World() {
               <Sparkles className="w-3 h-3" />
               {activeLoc.badge}
             </span>
-            <span className="font-impact text-white/40 text-3xl">0{activeIdx + 1}</span>
+            <span className="font-avenir font-bold text-white/40 text-3xl">0{activeIdx + 1}</span>
           </div>
 
           {/* Bottom Info Details */}
@@ -142,7 +142,7 @@ export default function World() {
                 <MapPin className="w-3.5 h-3.5" />
                 <span>{activeLoc.subtitle}</span>
               </div>
-              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-impact tracking-wide text-white uppercase leading-none">
+              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-avenir font-extrabold tracking-wide text-white uppercase leading-none">
                 {activeLoc.name}
               </h3>
             </div>
@@ -194,7 +194,7 @@ export default function World() {
                 {/* Location text info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <h5 className={`font-impact text-base sm:text-lg uppercase leading-tight truncate ${isActive ? 'text-[#ff6b00]' : 'text-slate-900'}`}>
+                    <h5 className={`font-avenir font-bold text-base sm:text-lg uppercase leading-tight truncate ${isActive ? 'text-[#ff6b00]' : 'text-slate-900'}`}>
                       {loc.name}
                     </h5>
                     <span

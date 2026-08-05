@@ -153,7 +153,7 @@ export default function Developers() {
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
         <div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-impact tracking-tight text-slate-900 uppercase">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-avenir font-extrabold tracking-tight text-slate-900 uppercase">
             DEVELOPERS & <span className="text-[#ff6b00]">CONTRIBUTORS</span>
           </h2>
           <p className="font-avenir text-slate-600 text-sm sm:text-base max-w-xl mt-1 leading-relaxed">

@@ -55,13 +55,13 @@ export default function Hero() {
         </div>
 
         {/* Main Headline - DRIVING SIMULATOR in Orange */}
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-impact tracking-tight text-slate-900 leading-tight uppercase mb-6">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-avenir font-black tracking-tight text-slate-900 leading-tight uppercase mb-6">
           #1 INDONESIAN <span style={{ color: '#ff6b00' }} className="font-bold">DRIVING SIMULATOR</span> <span style={{ color: '#0055BF' }}>ON ROBLOX</span>
         </h1>
 
         {/* Subheadline - ADV GAMERS TEAM in Orange */}
-        <p className="text-slate-600 font-impact text-base sm:text-xl max-w-2xl mx-auto leading-relaxed tracking-wide mb-10 uppercase">
-          EXPERIENCE AUTHENTIC INDONESIAN DRAG RACING, BORE-UP TUNING, HEREX EXHAUSTS, AND OPEN-WORLD CRUISING DEVELOPED BY <span style={{ color: '#ff6b00' }} className="font-bold">ADV GAMERS TEAM</span>.
+        <p className="text-slate-600 font-avenir font-medium text-base sm:text-lg max-w-2xl mx-auto leading-relaxed mb-10">
+          Experience authentic Indonesian drag racing, bore-up tuning, Herex exhausts, and open-world cruising developed by <span style={{ color: '#ff6b00' }} className="font-bold">ADV GAMERS TEAM</span>.
         </p>
 
         {/* Play Now on Roblox CTA — pill style seperti Contact Us */}
