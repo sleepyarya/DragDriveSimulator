@@ -19,8 +19,9 @@ export default {
         }
       },
       fontFamily: {
-        impact: ['Impact', 'Impact Regular', 'Haettenschweiler', 'Arial Narrow Bold', 'sans-serif'],
-        sans: ['Inter', 'sans-serif'],
+        avenir: ['Avenir Next', 'Avenir', 'Nunito', 'Segoe UI', 'sans-serif'],
+        sans: ['Avenir Next', 'Avenir', 'Nunito', 'Segoe UI', 'sans-serif'],
+        impact: ['Avenir Next', 'Avenir', 'Nunito', 'Segoe UI', 'sans-serif'],
       },
       boxShadow: {
         'orange-glow': '0 10px 30px -5px rgba(255, 107, 0, 0.3)',

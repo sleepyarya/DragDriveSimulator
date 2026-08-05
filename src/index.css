@@ -6,16 +6,20 @@
 @tailwind utilities;
 
 @layer base {
+  *, ::before, ::after {
+    font-family: 'Avenir Next', 'Avenir', 'Nunito', 'Segoe UI', sans-serif !important;
+  }
   html, body {
     overflow: hidden;
     height: 100%;
     margin: 0;
     padding: 0;
+    font-family: 'Avenir Next', 'Avenir', 'Nunito', 'Segoe UI', sans-serif !important;
   }
   body {
     background-color: #ffffff;
     color: #0f172a;
-    font-family: 'Avenir Next', 'Avenir', 'Nunito', 'Segoe UI', sans-serif;
+    font-family: 'Avenir Next', 'Avenir', 'Nunito', 'Segoe UI', sans-serif !important;
   }
   #root {
     height: 100vh;
@@ -42,14 +46,11 @@
   letter-spacing: 0.05em;
 }
 
-/* Impact font utility class (hero headline tetap Impact) */
-.font-impact {
-  font-family: Impact, 'Impact Regular', 'Haettenschweiler', sans-serif;
-}
-
-/* Avenir utility class */
-.font-avenir {
-  font-family: 'Avenir Next', 'Avenir', 'Nunito', 'Segoe UI', sans-serif;
+/* Global Avenir Font Utility Classes */
+.font-impact,
+.font-avenir,
+.font-sans {
+  font-family: 'Avenir Next', 'Avenir', 'Nunito', 'Segoe UI', sans-serif !important;
 }
 
 /* Light Background Gradient */
