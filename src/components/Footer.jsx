@@ -32,7 +32,7 @@ export default function Footer() {
               Resources
             </h4>
             <ul className="space-y-2.5 font-avenir text-sm text-slate-600">
-              <li><a href="#docs" className="hover:text-drag-orange transition-colors">Game Wiki</a></li>
+              <li><a href="https://dragdrivesimulator.com/" className="hover:text-drag-orange transition-colors">Game Wiki</a></li>
               <li><a href="https://discord.com/invite/tdZmyXQmMR" className="hover:text-drag-orange transition-colors">Support Center</a></li>
               <li><a href="#faqs" className="hover:text-drag-orange transition-colors">FAQ</a></li>
               <li><a href="#legal" className="hover:text-drag-orange transition-colors">Legal</a></li>
