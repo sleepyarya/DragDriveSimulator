@@ -10,7 +10,7 @@ export default function Logo({ size = "md", showSub = false }) {
         src={logoImg}
         alt="Drag & Drive Simulator"
         className={`object-contain transition-transform group-hover:scale-105 duration-200 ${
-          isLarge ? 'h-32 sm:h-40' : 'h-20 sm:h-20'
+          isLarge ? 'h-32 sm:h-40' : 'h-14 sm:h-16 lg:h-20'
         }`}
       />
       {showSub && (

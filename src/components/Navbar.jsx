@@ -102,10 +102,10 @@ export default function Navbar() {
         }
       `}</style>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex items-center justify-between w-full max-w-full overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex items-center justify-between w-full">
 
         {/* Logo (Far Left) */}
-        <a href="#hero" onClick={(e) => scrollToSection(e, 'hero')} className="flex items-center z-10 ml-0 sm:-ml-12 lg:-ml-24">
+        <a href="#hero" onClick={(e) => scrollToSection(e, 'hero')} className="flex items-center z-10 shrink-0">
           <Logo size="md" showSub={false} />
         </a>
 
@@ -124,11 +124,11 @@ export default function Navbar() {
         </nav>
 
         {/* Right CTA Buttons (Far Right) */}
-        <div className="hidden sm:flex items-center gap-3 z-10 mr-0 sm:-mr-12 lg:-mr-24">
+        <div className="hidden sm:flex items-center gap-3 z-10 shrink-0">
           {/* Contact Us — opens email client */}
           <a
             href="mailto:advgamersofficial@gmail.com?subject=Contact%20ADV%20Gamers%20Team"
-            className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full font-avenir font-bold text-base tracking-wider text-white transition-all duration-200 transform hover:-translate-y-0.5 hover:brightness-110"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2 sm:px-6 sm:py-2.5 rounded-full font-avenir font-bold text-sm sm:text-base tracking-wider text-white transition-all duration-200 transform hover:-translate-y-0.5 hover:brightness-110"
             style={{ background: '#1B3FA6', boxShadow: '0 4px 14px rgba(27,63,166,0.35)' }}
           >
             <span>Contact Us</span>
@@ -138,7 +138,7 @@ export default function Navbar() {
         {/* Mobile Hamburger */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 hover:text-drag-orange"
+          className="md:hidden p-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 hover:text-drag-orange shrink-0"
           aria-label="Toggle Navigation Menu"
         >
           {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
