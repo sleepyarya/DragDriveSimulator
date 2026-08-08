@@ -7,9 +7,9 @@ export default function Footer() {
     e.preventDefault();
     Swal.fire({
       title: '🚀 Coming Soon!',
-      text: `Fitur ${featureName} sedang dalam tahap pengembangan. Tetap pantau update terbaru di Server Discord kami!`,
+      text: `The ${featureName} feature is currently under development. Stay tuned for the latest updates on our Discord server!`,
       icon: 'info',
-      confirmButtonText: 'OK, Paham!',
+      confirmButtonText: 'OK!',
       confirmButtonColor: '#ff6b00',
       background: '#0f172a',
       color: '#f8fafc',
