@@ -9,7 +9,7 @@ import Footer from './components/Footer';
 
 export default function App() {
   return (
-    <div className="text-slate-900 font-avenir">
+    <div className="text-slate-900 font-avenir w-full max-w-full overflow-x-hidden">
       {/* Racing Preloader Animation */}
       <Preloader />
 
@@ -21,7 +21,10 @@ export default function App() {
         id="snap-container"
         style={{
           height: '100vh',
+          width: '100%',
+          maxWidth: '100vw',
           overflowY: 'scroll',
+          overflowX: 'hidden',
           scrollBehavior: 'smooth',
         }}
       >
@@ -30,6 +33,9 @@ export default function App() {
           id="hero"
           style={{
             height: '100vh',
+            width: '100%',
+            maxWidth: '100vw',
+            overflowX: 'hidden',
             display: 'flex',
             flexDirection: 'column',
           }}
@@ -42,6 +48,9 @@ export default function App() {
           id="world"
           style={{
             minHeight: '100vh',
+            width: '100%',
+            maxWidth: '100vw',
+            overflowX: 'hidden',
             background: 'linear-gradient(to bottom, #ffffff 0%, #fef4e8 50%, #fef0e0 100%)',
             display: 'flex',
             alignItems: 'center',
@@ -56,6 +65,9 @@ export default function App() {
           id="developers"
           style={{
             minHeight: '100vh',
+            width: '100%',
+            maxWidth: '100vw',
+            overflowX: 'hidden',
             background: 'linear-gradient(to bottom, #fef0e0 0%, #fff8f2 50%, #ffffff 100%)',
             display: 'flex',
             alignItems: 'center',
@@ -70,6 +82,9 @@ export default function App() {
           id="faqs"
           style={{
             minHeight: '100vh',
+            width: '100%',
+            maxWidth: '100vw',
+            overflowX: 'hidden',
             background: 'linear-gradient(to bottom, #ffffff 0%, #f8faff 50%, #ffffff 100%)',
             display: 'flex',
             alignItems: 'center',
@@ -82,7 +97,7 @@ export default function App() {
         </div>
 
         {/* Footer */}
-        <div id="footer">
+        <div id="footer" style={{ width: '100%', maxWidth: '100vw', overflowX: 'hidden' }}>
           <Footer />
         </div>
       </div>

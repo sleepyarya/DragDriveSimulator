@@ -102,10 +102,10 @@ export default function Navbar() {
         }
       `}</style>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex items-center justify-between w-full max-w-full overflow-hidden">
 
         {/* Logo (Far Left) */}
-        <a href="#hero" onClick={(e) => scrollToSection(e, 'hero')} className="flex items-center z-10 -ml-6 sm:-ml-32">
+        <a href="#hero" onClick={(e) => scrollToSection(e, 'hero')} className="flex items-center z-10 ml-0 sm:-ml-12 lg:-ml-24">
           <Logo size="md" showSub={false} />
         </a>
 
@@ -124,7 +124,7 @@ export default function Navbar() {
         </nav>
 
         {/* Right CTA Buttons (Far Right) */}
-        <div className="hidden sm:flex items-center gap-3 z-10 -mr-5 sm:-mr-28">
+        <div className="hidden sm:flex items-center gap-3 z-10 mr-0 sm:-mr-12 lg:-mr-24">
           {/* Contact Us — opens email client */}
           <a
             href="mailto:advgamersofficial@gmail.com?subject=Contact%20ADV%20Gamers%20Team"

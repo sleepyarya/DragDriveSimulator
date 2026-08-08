@@ -3,6 +3,10 @@
     {
       "source": "/api/roblox/thumbnails/:path*",
       "destination": "https://thumbnails.roblox.com/:path*"
+    },
+    {
+      "source": "/api/roblox/games/:path*",
+      "destination": "https://games.roblox.com/:path*"
     }
   ]
 }

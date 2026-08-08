@@ -15,6 +15,13 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api\/roblox\/thumbnails/, ''),
         secure: true,
       },
+      // Proxy Roblox Games API to avoid CORS
+      '/api/roblox/games': {
+        target: 'https://games.roblox.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/roblox\/games/, ''),
+        secure: true,
+      },
     },
   },
 })
