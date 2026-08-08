@@ -1,7 +1,25 @@
 import React from 'react';
+import Swal from 'sweetalert2';
 import Logo from './Logo';
 
 export default function Footer() {
+  const handleComingSoon = (e, featureName) => {
+    e.preventDefault();
+    Swal.fire({
+      title: '🚀 Coming Soon!',
+      text: `Fitur ${featureName} sedang dalam tahap pengembangan. Tetap pantau update terbaru di Server Discord kami!`,
+      icon: 'info',
+      confirmButtonText: 'OK, Paham!',
+      confirmButtonColor: '#ff6b00',
+      background: '#0f172a',
+      color: '#f8fafc',
+      customClass: {
+        popup: 'rounded-3xl border border-amber-500/30 shadow-2xl font-sans',
+        confirmButton: 'font-bold px-8 py-3 rounded-full font-avenir text-sm'
+      }
+    });
+  };
+
   return (
     <footer className="bg-gradient-to-b from-white via-slate-50 to-indigo-50/30 text-slate-700 pt-16 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -21,8 +39,8 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 font-avenir text-sm text-slate-600">
               <li><a href="https://www.roblox.com/share/g/11378976" target="_blank" rel="noopener noreferrer" className="hover:text-drag-orange transition-colors">Roblox Group</a></li>
-              <li><a href="#community" className="hover:text-drag-orange transition-colors">Community Standards</a></li>
-              <li><a href="#events" className="hover:text-drag-orange transition-colors">Events</a></li>
+              <li><a href="#community" onClick={(e) => handleComingSoon(e, 'Community Standards')} className="hover:text-drag-orange transition-colors">Community Standards</a></li>
+              <li><a href="#events" onClick={(e) => handleComingSoon(e, 'Events')} className="hover:text-drag-orange transition-colors">Events</a></li>
             </ul>
           </div>
 
@@ -35,7 +53,7 @@ export default function Footer() {
               <li><a href="https://dragdrivesimulator.com/" className="hover:text-drag-orange transition-colors">Game Wiki</a></li>
               <li><a href="https://discord.com/invite/tdZmyXQmMR" className="hover:text-drag-orange transition-colors">Support Center</a></li>
               <li><a href="#faqs" className="hover:text-drag-orange transition-colors">FAQ</a></li>
-              <li><a href="#legal" className="hover:text-drag-orange transition-colors">Legal</a></li>
+              <li><a href="#legal" onClick={(e) => handleComingSoon(e, 'Legal')} className="hover:text-drag-orange transition-colors">Legal</a></li>
             </ul>
           </div>
 
@@ -46,8 +64,8 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 font-avenir text-sm text-slate-600">
               <li><a href="mailto:advgamersofficial@gmail.com" className="hover:text-drag-orange transition-colors">Business Inquiries</a></li>
-              <li><a href="https://discord.gg" target="_blank" rel="noopener noreferrer" className="hover:text-drag-orange transition-colors">Report Issue</a></li>
-              <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-drag-orange transition-colors">Instagram</a></li>
+              <li><a href="https://discord.com/invite/tdZmyXQmMR" target="_blank" rel="noopener noreferrer" className="hover:text-drag-orange transition-colors">Report Issue</a></li>
+              <li><a href="https://instagram.com" onClick={(e) => handleComingSoon(e, 'Instagram')} className="hover:text-drag-orange transition-colors">Instagram</a></li>
             </ul>
           </div>
 
