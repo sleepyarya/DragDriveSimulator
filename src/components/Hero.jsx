@@ -1,39 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Play } from 'lucide-react';
 import RobloxAvatars from './RobloxAvatars';
+import { useRobloxVisits } from '../hooks/useRobloxVisits';
 
 export default function Hero() {
-  const [visitsText, setVisitsText] = useState('479M+');
-
-  // Live Auto-Update from Roblox API
-  useEffect(() => {
-    async function fetchLiveVisits() {
-      try {
-        const placeId = '131378148336503';
-        const universeRes = await fetch(`https://apis.roblox.com/universes/v1/places/${placeId}/universe`);
-        if (!universeRes.ok) return;
-        const universeData = await universeRes.json();
-
-        if (universeData && universeData.universeId) {
-          const gameRes = await fetch(`https://games.roblox.com/v1/games?universeIds=${universeData.universeId}`);
-          if (!gameRes.ok) return;
-          const gameData = await gameRes.json();
-
-          if (gameData?.data?.[0]?.visits) {
-            const rawVisits = gameData.data[0].visits;
-            const formatted = rawVisits >= 1000000 
-              ? `${(rawVisits / 1000000).toFixed(1)}M+` 
-              : rawVisits.toLocaleString();
-            setVisitsText(formatted);
-          }
-        }
-      } catch (err) {
-        console.log('Roblox API Live Fetch fallback active');
-      }
-    }
-
-    fetchLiveVisits();
-  }, []);
+  const { visitsText } = useRobloxVisits();
 
   return (
     <section

@@ -1,10 +1,13 @@
 import React from 'react';
 import { Users, Play, MessageSquare, ThumbsUp, Star, ExternalLink, ShieldCheck } from 'lucide-react';
+import { useRobloxVisits } from '../hooks/useRobloxVisits';
 
 export default function CommunityStats() {
+  const { visitsText } = useRobloxVisits();
+
   const stats = [
     { label: "Active Simulator Drivers", value: "15,400+", icon: Users, color: "#22c55e" },
-    { label: "Total Roblox Visits", value: "4.2M+", icon: Play, color: "#00f2fe" },
+    { label: "Total Roblox Visits", value: visitsText, icon: Play, color: "#00f2fe" },
     { label: "Community Favorite Rating", value: "94.8%", icon: ThumbsUp, color: "#f59e0b" },
     { label: "Discord Server Members", value: "28,500+", icon: MessageSquare, color: "#a855f7" },
   ];
